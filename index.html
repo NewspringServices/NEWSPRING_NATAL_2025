@@ -30,7 +30,7 @@
     }
 
     #btnIniciar {
-        background-color: #16a34a; /* verde vivo */
+        background-color: #16a34a;
         color: white;
         border: none;
         padding: 20px 40px;
@@ -64,6 +64,7 @@
         box-shadow: 0 6px 20px rgba(0,0,0,0.1);
         width: 100%;
         transition: all 0.3s ease;
+        margin-bottom: 20px;
     }
 
     .conteudoBox:hover {
@@ -214,10 +215,10 @@ const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhY
 
 // Múltiplos e-mails por site
 const sites = {
-    "Columbano": ["telma.pereirs.rosa@fidelidade.pt","liliana.pereira@newspring.pt","a2@a.com"],
+    "Columbano": ["telma.pereira.rosa@fidelidade.pt","liliana.pereira@newspring.pt","a2@a.com"],
     "Báltico": ["andreia.alexandra.gralha@newspring.pt","t1@t.com"],
-        "Alexandre Herculano": ["t@t.com"],
-        "Évora": ["teste@.com"],
+    "Alexandre Herculano": ["t@t.com"],
+    "Évora": ["teste@.com"],
     "Alfragide": ["ruben.rhodo@newspring.pt"]
 };
 
@@ -226,7 +227,7 @@ function getSiteDoEmail(email) {
     for (const [site, emails] of Object.entries(sites)) {
         if (emails.includes(email)) return site;
     }
-    return "Site desconhecido";
+    return null; // retorna null se não existir
 }
 
 // Botão inicial
@@ -256,6 +257,11 @@ async function gerarInscricao() {
     }
 
     const site = getSiteDoEmail(email);
+
+    if (!site) {
+        alert("Este e-mail não existe na base de dados. Verifique e tente novamente.");
+        return;
+    }
 
     const mensagem = `Inscrição realizada com sucesso!\nNome: ${nome}\nCoordenação: ${coord}\nE-mail: ${email}\nSite: ${site}`;
     document.getElementById("msgInscricao").innerText = mensagem;
