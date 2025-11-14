@@ -4,144 +4,149 @@
 <meta charset="UTF-8">
 <title>Lanche de Natal</title>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
-    body {
-        font-family: 'Inter', Arial, sans-serif;
-        background: #f0f4f8;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        color: #333;
-    }
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: url('nss.jpg') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+}
 
-    /* Tela inicial */
-    #telaInicial {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        height: 100vh;
-        width: 100%;
-    }
+/* Tela inicial */
+#telaInicial {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+}
 
-    #btnIniciar {
-        background-color: #16a34a;
-        color: white;
-        border: none;
-        padding: 20px 40px;
-        font-size: 20px;
-        font-weight: 600;
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
+#btnIniciar {
+    background-color: #16a34a; /* verde vivo */
+    color: white;
+    border: none;
+    padding: 20px 40px;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
-    #btnIniciar:hover {
-        background-color: #13803d;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    }
+#btnIniciar:hover {
+    background-color: #13803d;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
 
-    /* Conteúdo principal escondido inicialmente */
-    #conteudoPrincipal {
-        display: none;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        max-width: 450px;
-        background: #fff;
-        padding: 40px 30px;
-        border-radius: 16px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-    }
+/* Conteúdo principal */
+#conteudoPrincipal {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 450px;
+    background: rgba(255, 255, 255, 0.95); /* caixa branca semi-transparente */
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    text-align: center;
+}
 
-    h2 {
-        color: #16a34a;
-        text-align: center;
-        font-weight: 600;
-        margin-bottom: 10px;
-    }
+h2 {
+    color: #16a34a;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
 
-    p {
-        text-align: center;
-        font-size: 16px;
-        color: #555;
-        margin-bottom: 20px;
-    }
+p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+}
 
-    .box {
-        width: 100%;
-        margin-top: 20px;
-    }
+.box {
+    background: transparent; /* já temos fundo principal */
+    margin-top: 20px;
+    padding: 20px 0;
+    width: 100%;
+}
 
-    label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 500;
-        color: #2d3748;
-        cursor: pointer;
-    }
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #2d3748;
+    cursor: pointer;
+}
 
-    input[type="text"],
-    input[type="email"],
-    select {
-        width: 100%;
-        padding: 10px 12px;
-        margin-bottom: 15px;
-        border: 1px solid #cbd5e0;
-        border-radius: 8px;
-        font-size: 14px;
-        transition: all 0.2s ease;
-    }
+input[type="text"],
+input[type="email"],
+select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
 
-    input[type="text"]:focus,
-    input[type="email"]:focus,
-    select:focus {
-        outline: none;
-        border-color: #16a34a;
-        box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
-    }
+input[type="text"]:focus,
+input[type="email"]:focus,
+select:focus {
+    outline: none;
+    border-color: #16a34a;
+    box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+}
 
-    button.formButton {
-        width: 100%;
-        background-color: #16a34a;
-        color: white;
-        border: none;
-        padding: 12px;
-        border-radius: 8px;
-        font-size: 15px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        margin-top: 5px;
-    }
+button.formButton {
+    width: 100%;
+    background-color: #16a34a;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
 
-    button.formButton:hover {
-        background-color: #13803d;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
+button.formButton:hover {
+    background-color: #13803d;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
 
-    input[type="radio"] {
-        margin-right: 10px;
-        accent-color: #16a34a;
-        cursor: pointer;
-    }
+input[type="radio"] {
+    margin-right: 10px;
+    accent-color: #16a34a;
+    cursor: pointer;
+}
 
-    #msgInscricao,
-    #msgNegar {
-        font-weight: 600;
-        margin-top: 10px;
-        color: #16a34a;
-        text-align: center;
-    }
+#msgInscricao,
+#msgNegar {
+    font-weight: 600;
+    margin-top: 10px;
+    color: #16a34a;
+    text-align: center;
+}
 
-    .hidden { display: none; }
+label:hover {
+    color: #16a34a;
+}
+
+.hidden { display: none; }
+
 </style>
 </head>
 <body>
@@ -219,22 +224,15 @@ function mostrarOpcao() {
     else document.getElementById("formNegar").classList.remove("hidden");
 }
 
-// GERAR INSCRIÇÃO
+// FUNÇÕES DE ENVIO E IMAGEM
 async function gerarInscricao() {
     const nome = document.getElementById("nome").value.trim();
     const email = document.getElementById("email").value.trim();
     const coord = document.getElementById("coordenacao").value;
-
-    if (!nome || !email || !coord) {
-        alert("Preencha todos os campos.");
-        return;
-    }
-
-    const site = "Site desconhecido";
-    const mensagem = `Inscrição realizada com sucesso!\nNome: ${nome}\nCoordenação: ${coord}\nE-mail: ${email}\nSite: ${site}`;
+    if (!nome || !email || !coord) { alert("Preencha todos os campos."); return; }
+    const mensagem = `Inscrição realizada com sucesso!\nNome: ${nome}\nCoordenação: ${coord}\nE-mail: ${email}`;
     document.getElementById("msgInscricao").innerText = mensagem;
 
-    // Enviar para Supabase
     try {
         const response = await fetch(`${SUPABASE_URL}/rest/v1/participantes`, {
             method: 'POST',
@@ -244,27 +242,21 @@ async function gerarInscricao() {
                 'Authorization': `Bearer ${SUPABASE_API_KEY}`,
                 'Prefer': 'return=representation'
             },
-            body: JSON.stringify([{ nome, email, coordenacao: coord, site, codigo_negativa: null }])
+            body: JSON.stringify([{ nome, email, coordenacao: coord, site: null, codigo_negativa: null }])
         });
-        if (!response.ok) throw new Error(await response.text());
+        if (!response.ok) throw new Error(`Erro ${response.status}`);
+        console.log("✅ Inscrição efetuada!");
     } catch (err) {
-        console.error("Erro ao salvar inscrição:", err);
-        alert("Erro ao salvar no banco. Verifique permissões.");
+        console.error(err);
+        alert("Erro ao salvar no banco.");
     }
-
     gerarImagem(mensagem, "Confirmacao_Inscricao.png");
 }
 
-// GERAR NEGATIVA
 async function gerarNegativa() {
     const nome = document.getElementById("nomeNegar").value.trim();
     const email = document.getElementById("emailNegar").value.trim();
-
-    if (!nome || !email) {
-        alert("Preencha todos os campos.");
-        return;
-    }
-
+    if (!nome || !email) { alert("Preencha todos os campos."); return; }
     const codigo = "NSS_RECUSA-" + Math.random().toString(36).substring(2, 8).toUpperCase();
     const mensagem = `Recusa de convite registada!\nNome: ${nome}\nE-mail: ${email}\nCódigo: ${codigo}`;
     document.getElementById("msgNegar").innerText = mensagem;
@@ -280,16 +272,15 @@ async function gerarNegativa() {
             },
             body: JSON.stringify([{ nome, email, coordenacao: null, site: null, codigo_negativa: codigo }])
         });
-        if (!response.ok) throw new Error(await response.text());
+        if (!response.ok) throw new Error(`Erro ${response.status}`);
+        console.log("✅ Recusa registada!");
     } catch (err) {
-        console.error("Erro ao salvar negativa:", err);
-        alert("Erro ao salvar no banco. Verifique permissões.");
+        console.error(err);
+        alert("Erro ao salvar no banco.");
     }
-
     gerarImagem(mensagem, "Recusa_Convite.png");
 }
 
-// GERAR IMAGEM
 function gerarImagem(texto, nomeArquivo) {
     const canvas = document.createElement("canvas");
     canvas.width = 800;
