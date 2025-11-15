@@ -12,7 +12,6 @@
         background-size: cover;
         margin: 0;
         padding: 0;
-
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -152,11 +151,11 @@
         <p>Escolha uma opção:</p>
 
         <label>
-            <input type="radio" name="opcao" value="inscricao" onclick="mostrarOpcao()"> Efetuar inscrição
+            <input type="radio" name="opcao" value="inscricao" onclick="mostrarOpcao()"> Efetuar Inscrição
         </label>
 
         <label>
-            <input type="radio" name="opcao" value="negar" onclick="mostrarOpcao()"> Negar convite
+            <input type="radio" name="opcao" value="negar" onclick="mostrarOpcao()"> Recusar Convite
         </label>
     </div>
 
@@ -214,7 +213,7 @@ function getSiteDoEmail(email) {
     for (const [site, emails] of Object.entries(sites)) {
         if (emails.includes(email)) return site;
     }
-    return "Site desconhecido";
+    return null;
 }
 
 document.getElementById("btnIniciar").addEventListener("click", () => {
@@ -241,6 +240,11 @@ async function gerarInscricao() {
     }
 
     const site = getSiteDoEmail(email);
+    if (!site) {
+        alert("O email não existe na lista de associados. Tente novamente.");
+        return;
+    }
+
     const mensagem = `Inscrição realizada com sucesso!\nNome: ${nome}\nCoordenação: ${coord}\nE-mail: ${email}\nSite: ${site}`;
     document.getElementById("msgInscricao").innerText = mensagem;
 
@@ -271,8 +275,8 @@ async function gerarNegativa() {
         return;
     }
 
-    const codigo = "NSS_RECUSA-" + Math.random().toString(36).substring(2, 8).toUpperCase();
-    const mensagem = `Recusa de convite registada!\nNome: ${nome}\nE-mail: ${email}\nCódigo: ${codigo}`;
+    const codigo = "NSS_" + Math.random().toString(36).substring(2, 8).toUpperCase();
+    const mensagem = `Recusa de convite registada!\nNome: ${nome}\nE-mail: ${email}\nCódigo: ${codigo}\n\nGuarda este número mágico!`;
     document.getElementById("msgNegar").innerText = mensagem;
 
     try {
@@ -293,7 +297,6 @@ async function gerarNegativa() {
     gerarImagem(mensagem, "Recusa_Convite.png");
 }
 
-// Função para carregar imagem com CORS
 function carregarImagem(src) {
     return new Promise((resolve, reject) => {
         const img = new Image();
@@ -304,39 +307,34 @@ function carregarImagem(src) {
     });
 }
 
-// Função gerarImagem com logo centralizado e tamanho proporcional
 async function gerarImagem(texto, nomeArquivo) {
     const canvas = document.createElement("canvas");
     canvas.width = 800;
     canvas.height = 400;
     const ctx = canvas.getContext("2d");
 
-    // Fundo branco
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     try {
         const logo = await carregarImagem("https://raw.githubusercontent.com/NewspringServices/NEWSPRING_NATAL_2025/main/logo.png");
 
-        // Logo centralizado no topo (menor)
-        const logoWidth = 200;
-        const logoHeight = 100;
+        const logoWidth = 250;
+        const logoHeight = 125;
         const logoX = (canvas.width - logoWidth) / 2;
         const logoY = 20;
         ctx.drawImage(logo, logoX, logoY, logoWidth, logoHeight);
 
-        // Texto centralizado abaixo do logo
         ctx.fillStyle = "#000000";
-        ctx.font = "24px Arial";
+        ctx.font = "16px Arial"; // fonte menor
         ctx.textAlign = "center";
 
         const linhas = texto.split("\n");
         linhas.forEach((linha, i) => {
-            const posY = logoY + logoHeight + 30 + i * 35;
+            const posY = logoY + logoHeight + 25 + i * 28;
             ctx.fillText(linha, canvas.width / 2, posY);
         });
 
-        // Baixa a imagem
         const link = document.createElement("a");
         link.download = nomeArquivo;
         link.href = canvas.toDataURL("image/png");
@@ -350,3 +348,4 @@ async function gerarImagem(texto, nomeArquivo) {
 
 </body>
 </html>
+
