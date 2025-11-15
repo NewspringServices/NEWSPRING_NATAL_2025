@@ -12,9 +12,11 @@
         background-size: cover;
         margin: 0;
         padding: 0;
+
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center; /* centraliza tudo verticalmente */
         min-height: 100vh;
         color: #333;
     }
@@ -25,12 +27,11 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        height: 100vh;
         width: 100%;
     }
 
     #btnIniciar {
-        background-color: #16a34a; /* verde vivo */
+        background-color: #16a34a;
         color: white;
         border: none;
         padding: 20px 40px;
@@ -52,19 +53,26 @@
         display: none;
         flex-direction: column;
         align-items: center;
+        justify-content: center; /* centraliza verticalmente */
         width: 100%;
-        max-width: 400px;
-        margin-top: 30px;
     }
 
+    /* Caixas brancas */
     .conteudoBox {
         background: rgba(255,255,255,0.95);
-        padding: 25px 30px;
+        padding: 20px 25px;
         border-radius: 12px;
         box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-        width: 100%;
-        transition: all 0.3s ease;
+        width: 350px; /* largura fixa */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         margin-bottom: 20px;
+    }
+
+    /* Caixa de escolha menor */
+    #caixaEscolha {
+        padding: 20px 25px;
     }
 
     .conteudoBox:hover {
@@ -72,20 +80,14 @@
         box-shadow: 0 10px 25px rgba(0,0,0,0.12);
     }
 
-    h2 {
-        color: #16a34a;
+    h2, h3, p {
         text-align: center;
-        font-weight: 600;
-    }
-
-    p {
-        text-align: center;
-        font-size: 16px;
-        color: #555;
+        margin: 10px 0;
     }
 
     label {
-        display: block;
+        display: flex;
+        align-items: center;
         margin-bottom: 8px;
         font-weight: 500;
         color: #2d3748;
@@ -151,8 +153,8 @@
 <!-- Conteúdo principal -->
 <div id="conteudoPrincipal">
 
-    <!-- 🔥 Agora a escolha aparece dentro do quadrado branco -->
-    <div class="conteudoBox">
+    <!-- Caixa de escolha menor -->
+    <div id="caixaEscolha" class="conteudoBox">
         <h2>🎄 Lanche de Natal</h2>
         <p>Escolha uma opção:</p>
 
@@ -209,7 +211,7 @@ const SUPABASE_URL = 'https://bijndfsxrzjviwrdvwms.supabase.co';
 const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpam5kZnN4cnpqdml3cmR2d21zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTA5NTIsImV4cCI6MjA2NjQyNjk1Mn0.EWaFInuqTaxvnjytb40DdnflEbBrbSYcViKLYc_kKBk';
 
 const sites = {
-    "Columbano": ["telma.pereirs.rosa@fidelidade.pt","liliana.pereira@newspring.pt","a2@a.com"],
+    "Columbano": ["telma.pereira.rosa@fidelidade.pt","liliana.pereira@newspring.pt","a2@a.com"],
     "Báltico": ["andreia.alexandra.gralha@newspring.pt","t1@t.com"],
     "Alexandre Herculano": ["t@t.com"],
     "Évora": ["teste@.com"],
@@ -252,7 +254,7 @@ async function gerarInscricao() {
     document.getElementById("msgInscricao").innerText = mensagem;
 
     try {
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/participantes`, {
+        await fetch(`${SUPABASE_URL}/rest/v1/participantes`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -283,7 +285,7 @@ async function gerarNegativa() {
     document.getElementById("msgNegar").innerText = mensagem;
 
     try {
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/participantes`, {
+        await fetch(`${SUPABASE_URL}/rest/v1/participantes`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -327,5 +329,4 @@ function gerarImagem(texto, nomeArquivo) {
 
 </body>
 </html>
-
 
