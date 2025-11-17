@@ -262,6 +262,10 @@ function mostrarAlerta(mensagem) {
     setTimeout(() => alerta.classList.add("hidden"), 3000);
 }
 
+function gerarCodigoNumerico() {
+    return Math.floor(100000 + Math.random() * 900000); // gera número aleatório de 6 dígitos
+}
+
 async function gerarInscricao() {
     const nome = document.getElementById("nome").value.trim();
     const nif = document.getElementById("nif").value.trim();
@@ -273,7 +277,7 @@ async function gerarInscricao() {
     const site = getSiteDoNif(nif);
     if (!site) { mostrarAlerta("NIF não existe na lista de associados."); return; }
 
-    const codigo = "NSS_" + Math.random().toString(36).substring(2,8).toUpperCase();
+    const codigo = gerarCodigoNumerico();
     const status = "Inscrito";
 
     const mensagem = `Inscrição realizada com sucesso!\nNome: ${nome}\nCoordenação: ${coord}\nNIF: ${nif}\nSite: ${site}\nCódigo: ${codigo}`;
@@ -309,7 +313,7 @@ async function gerarNegativa() {
     if (!nome || !nif) { mostrarAlerta("Preencha todos os campos."); return; }
     if (await nifJaRegistado(nif)) { mostrarAlerta("Este NIF já submeteu a sua resposta."); return; }
 
-    const codigo = "NSS_" + Math.random().toString(36).substring(2,8).toUpperCase();
+    const codigo = gerarCodigoNumerico();
     const status = "Recusa";
 
     const mensagem = `Recusa de convite registada!\nNome: ${nome}\nNIF: ${nif}\nCódigo: ${codigo}\nGuarda este número mágico!`;
