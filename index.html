@@ -20,6 +20,26 @@
         color: #333;
     }
 
+    #alertaCentral {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #f87171; /* vermelho suave */
+        color: white;
+        padding: 20px 30px;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: 600;
+        text-align: center;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        z-index: 9999;
+    }
+
+    #alertaCentral.hidden {
+        display: none;
+    }
+
     #telaInicial {
         display: flex;
         justify-content: center;
@@ -144,6 +164,9 @@
 </head>
 <body>
 
+<!-- ALERTA CENTRAL -->
+<div id="alertaCentral" class="hidden"></div>
+
 <div id="telaInicial">
     <button id="btnIniciar">Natal 2025 - Newspring Services</button>
 </div>
@@ -205,7 +228,7 @@ const SUPABASE_URL = 'https://bijndfsxrzjviwrdvwms.supabase.co';
 const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpam5kZnN4cnpqdml3cmR2d21zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTA5NTIsImV4cCI6MjA2NjQyNjk1Mn0.EWaFInuqTaxvnjytb40DdnflEbBrbSYcViKLYc_kKBk';
 
 const sites = {
-    "Columbano": ["telma.pereira.rosa@fidelidade.pt","liliana.pereira@newspring.pt","a2@a.com", "tania.filipa.vieira@fidelidade.pt"],
+    "Columbano": ["telma.pereira.rosa@fidelidade.pt","liliana.pereira@newspring.pt","a2@a.com"],
     "Báltico": ["andreia.alexandra.gralha@newspring.pt","t1@t.com"],
     "Alexandre Herculano": ["t@t.com"],
     "Évora": ["teste@.com"],
@@ -223,7 +246,7 @@ async function emailJaRegistado(email) {
         }
     });
     const data = await res.json();
-    return data.length > 0; // true se já existe
+    return data.length > 0;
 }
 
 function getSiteDoEmail(email) {
@@ -247,6 +270,17 @@ function mostrarOpcao() {
     else document.getElementById("formNegar").classList.remove("hidden");
 }
 
+// FUNÇÃO ALERTA CENTRAL
+function mostrarAlerta(mensagem) {
+    const alerta = document.getElementById("alertaCentral");
+    alerta.innerText = mensagem;
+    alerta.classList.remove("hidden");
+
+    setTimeout(() => {
+        alerta.classList.add("hidden");
+    }, 3000); // desaparece após 3s
+}
+
 // INSCRIÇÃO
 async function gerarInscricao() {
     const nome = document.getElementById("nome").value.trim();
@@ -254,19 +288,18 @@ async function gerarInscricao() {
     const coord = document.getElementById("coordenacao").value;
 
     if (!nome || !email || !coord) {
-        alert("Preencha todos os campos.");
+        mostrarAlerta("Preencha todos os campos.");
         return;
     }
 
-    // 🔒 Bloquear emails duplicados
     if (await emailJaRegistado(email)) {
-        alert("Este e-mail já submeteu a sua resposta. Apenas é permitida 1 submissão.");
+        mostrarAlerta("Este e-mail já submeteu a sua resposta. Apenas é permitida 1 submissão.");
         return;
     }
 
     const site = getSiteDoEmail(email);
     if (!site) {
-        alert("O email não existe na lista de associados. Tente novamente.");
+        mostrarAlerta("O email não existe na lista de associados. Tente novamente.");
         return;
     }
 
@@ -301,7 +334,7 @@ Código: ${codigo}`;
             }])
         });
     } catch (err) {
-        alert("Erro ao salvar no banco.");
+        mostrarAlerta("Erro ao salvar no banco.");
     }
 
     gerarImagem(mensagem, "Confirmacao_Inscricao.png");
@@ -313,13 +346,12 @@ async function gerarNegativa() {
     const email = document.getElementById("emailNegar").value.trim();
 
     if (!nome || !email) {
-        alert("Preencha todos os campos.");
+        mostrarAlerta("Preencha todos os campos.");
         return;
     }
 
-    // 🔒 Bloquear emails duplicados
     if (await emailJaRegistado(email)) {
-        alert("Este e-mail já submeteu a sua resposta. Apenas é permitida 1 submissão.");
+        mostrarAlerta("Este e-mail já submeteu a sua resposta. Apenas é permitida 1 submissão.");
         return;
     }
 
@@ -354,7 +386,7 @@ Guarda este número mágico!`;
             }])
         });
     } catch (err) {
-        alert("Erro ao salvar.");
+        mostrarAlerta("Erro ao salvar.");
     }
 
     gerarImagem(mensagem, "Recusa_Convite.png");
@@ -405,7 +437,7 @@ async function gerarImagem(texto, nomeArquivo) {
         link.click();
 
     } catch (err) {
-        alert("Erro ao carregar o logo da empresa.");
+        mostrarAlerta("Erro ao carregar o logo da empresa.");
     }
 }
 </script>
