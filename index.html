@@ -80,13 +80,13 @@
         margin: 10px 0;
     }
 
-    /* AQUI ESTÁ A ALTERAÇÃO PEDIDA */
+    /* Opções em bold e maiores */
     #caixaEscolha label {
         display: flex;
         align-items: center;
         margin-bottom: 15px;
-        font-weight: 700;        /* negrito */
-        font-size: 20px;         /* maior */
+        font-weight: 700;
+        font-size: 20px;
         color: #1a1a1a;
         cursor: pointer;
     }
@@ -145,7 +145,7 @@
 <body>
 
 <div id="telaInicial">
-    <button id="btnIniciar">Natal 2025</button>
+    <button id="btnIniciar">Natal 2025 - Newspring Services</button>
 </div>
 
 <div id="conteudoPrincipal">
@@ -213,6 +213,19 @@ const sites = {
     "Alfragide": ["ruben.rhodo@newspring.pt"]
 };
 
+// Função para verificar se email já foi registado
+async function emailJaRegistado(email) {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/participantes?email=eq.${email}`, {
+        method: "GET",
+        headers: {
+            'apikey': SUPABASE_API_KEY,
+            'Authorization': `Bearer ${SUPABASE_API_KEY}`
+        }
+    });
+    const data = await res.json();
+    return data.length > 0; // true se já existe
+}
+
 function getSiteDoEmail(email) {
     email = email.toLowerCase();
     for (const [site, emails] of Object.entries(sites)) {
@@ -234,6 +247,7 @@ function mostrarOpcao() {
     else document.getElementById("formNegar").classList.remove("hidden");
 }
 
+// INSCRIÇÃO
 async function gerarInscricao() {
     const nome = document.getElementById("nome").value.trim();
     const email = document.getElementById("email").value.trim();
@@ -241,6 +255,12 @@ async function gerarInscricao() {
 
     if (!nome || !email || !coord) {
         alert("Preencha todos os campos.");
+        return;
+    }
+
+    // 🔒 Bloquear emails duplicados
+    if (await emailJaRegistado(email)) {
+        alert("Este e-mail já submeteu a sua resposta. Apenas é permitida 1 submissão.");
         return;
     }
 
@@ -287,12 +307,19 @@ Código: ${codigo}`;
     gerarImagem(mensagem, "Confirmacao_Inscricao.png");
 }
 
+// RECUSA
 async function gerarNegativa() {
     const nome = document.getElementById("nomeNegar").value.trim();
     const email = document.getElementById("emailNegar").value.trim();
 
     if (!nome || !email) {
         alert("Preencha todos os campos.");
+        return;
+    }
+
+    // 🔒 Bloquear emails duplicados
+    if (await emailJaRegistado(email)) {
+        alert("Este e-mail já submeteu a sua resposta. Apenas é permitida 1 submissão.");
         return;
     }
 
@@ -333,6 +360,7 @@ Guarda este número mágico!`;
     gerarImagem(mensagem, "Recusa_Convite.png");
 }
 
+// GERAR IMAGEM
 function carregarImagem(src) {
     return new Promise((resolve, reject) => {
         const img = new Image();
